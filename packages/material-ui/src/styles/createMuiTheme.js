@@ -16,27 +16,37 @@ function createMuiTheme(options = {}, ...args) {
     palette: paletteInput = {},
     spacing: spacingInput,
     typography: typographyInput = {},
+    overrides: overridesInput = {},
     ...other
   } = options;
 
   const palette = createPalette(paletteInput);
   const breakpoints = createBreakpoints(breakpointsInput);
   const spacing = createSpacing(spacingInput);
+  const typography = createTypography(palette, typographyInput);
+  const mixins = createMixins(breakpoints, spacing, mixinsInput);
+
+  const baseMuiTheme = {
+    breakpoints,
+    direction: 'ltr',
+    mixins,
+    palette,
+    shadows,
+    typography,
+    spacing,
+    shape,
+    transitions,
+    zIndex,
+  };
+
+  const overrides =
+    typeof overridesInput === 'function' ? overridesInput(baseMuiTheme) : overridesInput;
 
   let muiTheme = deepmerge(
     {
-      breakpoints,
-      direction: 'ltr',
-      mixins: createMixins(breakpoints, spacing, mixinsInput),
-      overrides: {}, // Inject custom styles
-      palette,
+      ...baseMuiTheme,
+      overrides, // Inject custom styles
       props: {}, // Provide default props
-      shadows,
-      typography: createTypography(palette, typographyInput),
-      spacing,
-      shape,
-      transitions,
-      zIndex,
     },
     other,
   );

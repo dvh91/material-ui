@@ -28,20 +28,23 @@ export interface ThemeOptions {
   unstable_strictMode?: boolean;
 }
 
-export interface Theme {
+export interface BaseTheme {
   shape: Shape;
   breakpoints: Breakpoints;
   direction: Direction;
   mixins: Mixins;
-  overrides?: Overrides;
   palette: Palette;
-  props?: ComponentsProps;
   shadows: Shadows;
   spacing: Spacing;
   transitions: Transitions;
   typography: Typography;
   zIndex: ZIndex;
   unstable_strictMode?: boolean;
+}
+
+export interface Theme extends BaseTheme {
+  overrides?: Overrides;
+  props?: ComponentsProps;
 }
 
 export default function createMuiTheme(options?: ThemeOptions, ...args: object[]): Theme;

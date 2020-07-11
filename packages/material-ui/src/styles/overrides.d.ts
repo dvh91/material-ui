@@ -99,8 +99,11 @@ import { ToolbarClassKey } from '../Toolbar';
 import { TooltipClassKey } from '../Tooltip';
 import { TouchRippleClassKey } from '../ButtonBase/TouchRipple';
 import { TypographyClassKey } from '../Typography';
+import { BaseTheme } from './createMuiTheme';
 
-export type Overrides = {
+export type Overrides = (baseTheme: BaseTheme) => OverridesResult | OverridesResult;
+
+export type OverridesResult = {
   [Name in keyof ComponentNameToClassKey]?: Partial<StyleRules<ComponentNameToClassKey[Name]>>;
 } & {
   MuiCssBaseline?: {
